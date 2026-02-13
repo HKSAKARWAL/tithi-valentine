@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tithi ❤️ Valentine</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to top right, #ff758c, #ff7eb3);
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      border-radius: 25px;
+      max-width: 520px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 0 30px rgba(0,0,0,0.35);
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-family: cursive;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    button {
+      padding: 12px 22px;
+      margin: 12px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #yesBtn {
+      background: #ff0033;
+      color: white;
+      font-weight: bold;
+    }
+
+    #noBtn {
+      background: white;
+      color: black;
+      position: absolute;
+    }
+
+    #msg {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Tithi ❤️</h1>
+
+    <p>
+      Main jaanta hoon kabhi kabhi main annoying ho jaata hoon,
+      gussa kar deta hoon… aur over possessive bhi ho jaata hoon.
+    </p>
+
+    <p>
+      Par sach ye hai ki main har situation me sirf tumhe choose karta hoon.
+      Tumhari smile, tumhara mujhe daantna… sab meri aadat ban gayi hai 💌
+    </p>
+
+    <p>
+      Main apni puri life tumhare saath bitana chahta hoon…
+      Will you be my Valentine forever? 😘
+    </p>
+
+    <button id="yesBtn">YES 😍</button>
+    <button id="noBtn">NO 🙄</button>
+
+    <div id="msg"></div>
+  </div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const msg = document.getElementById("msg");
+
+  // Tricky NO button moves away 😭
+  noBtn.addEventListener("touchstart", moveButton);
+  noBtn.addEventListener("mouseover", moveButton);
+
+  function moveButton() {
+    let x = Math.random() * (window.innerWidth - 120);
+    let y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  yesBtn.addEventListener("click", () => {
+    msg.innerHTML =
+      "😭❤️ Yayyy!! Tithi Bavaliya... You are my forever Valentine 🌹😘";
+  });
+</script>
+
+</body>
+</html>
