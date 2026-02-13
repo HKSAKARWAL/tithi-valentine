@@ -1,219 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tithi ❤️ Himanshu</title>
 
   <style>
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
+      height: 100vh;
+      background: url("bg.png") no-repeat center center/cover;
+      overflow: hidden;
       text-align: center;
       color: white;
-      overflow: hidden;
-      background: url("https://i.ibb.co/Nx7mJvH/love-bg.jpg") no-repeat center center/cover;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-    }
-
-    .card {
-      position: relative;
-      z-index: 10;
-      max-width: 400px;
-      margin: auto;
-      margin-top: 50px;
-      padding: 25px;
-      border-radius: 25px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 25px rgba(255,105,180,0.6);
     }
 
     h1 {
-      font-size: 45px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 20px pink;
+      margin-top: 60px;
+      font-size: 3rem;
+      font-weight: 600;
+      text-shadow: 0 0 15px pink;
     }
 
-    p {
-      font-size: 18px;
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
-
-    .qr img {
-      width: 200px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px white;
-    }
-
-    .buttons {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
+    h2 {
+      font-weight: 300;
+      margin-top: -10px;
+      font-size: 1.2rem;
     }
 
     button {
       padding: 15px 35px;
-      font-size: 18px;
       border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: 0.2s;
-      font-weight: bold;
-    }
-
-    #yesBtn {
-      background: linear-gradient(45deg, hotpink, deeppink);
+      border-radius: 30px;
+      background: rgba(255, 150, 200, 0.85);
       color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 20px;
+      transition: 0.3s;
       box-shadow: 0 0 20px pink;
     }
 
-    #noBtn {
-      background: white;
-      color: hotpink;
-      position: relative;
+    button:hover {
+      transform: scale(1.08);
+      background: rgba(255, 120, 180, 0.95);
     }
 
-    /* Floating hearts animation */
-    .heart {
-      position: absolute;
-      font-size: 20px;
-      animation: float 6s infinite;
-      opacity: 0.8;
-    }
-
-    @keyframes float {
-      0% {transform: translateY(0); opacity: 1;}
-      100% {transform: translateY(-800px); opacity: 0;}
-    }
-
-    /* Popup */
+    /* Surprise Box */
     .popup {
       display: none;
       position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .popup-box {
-      background: white;
-      color: hotpink;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
       padding: 30px;
       border-radius: 25px;
-      text-align: center;
-      max-width: 300px;
+      width: 80%;
+      max-width: 400px;
       box-shadow: 0 0 30px pink;
-      animation: pop 0.4s ease;
-    }
-
-    @keyframes pop {
-      from {transform: scale(0.5);}
-      to {transform: scale(1);}
-    }
-
-    .popup-box h2 {
-      margin: 0;
-      font-size: 25px;
-    }
-
-    .closeBtn {
-      margin-top: 20px;
-      padding: 10px 25px;
-      background: hotpink;
-      border: none;
-      border-radius: 20px;
       color: white;
-      cursor: pointer;
+    }
+
+    .popup h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    .popup p {
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    /* Hearts Animation */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-110vh);
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="overlay"></div>
 
   <!-- Music -->
-  <audio id="bgMusic" loop>
-    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
+  <audio id="music" loop>
+    <source src="love.mp3" type="audio/mpeg">
   </audio>
 
-  <div class="card">
-    <h1>Tithi ❤️ Himanshu</h1>
+  <button onclick="playMusic()">🎵 Play Music</button>
 
+  <h1>Tithi ❤️ Himanshu</h1>
+  <h2>You are my forever Valentine 💞</h2>
+
+  <button onclick="openSurprise()">Click for Surprise 💍</button>
+
+  <!-- Popup Surprise -->
+  <div class="popup" id="popupBox">
+    <h3>Mrs Tithi Sakarwal? ❤️💖</h3>
     <p>
-      Har din, har pal… sirf tumse pyar karta hoon 💖  
-      Tum meri duniya ho Tithi ✨  
-      Will you be my forever? 😏
+      You are not just my girlfriend,  
+      you are my home, my peace, my everything.  
+      <br><br>
+      Will you always stay with me? 💍
     </p>
 
-    <h3>Scan this Surprise 💌</h3>
-
-    <!-- QR Code -->
-    <div class="qr">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=I%20Love%20You%20Tithi%20Forever" />
-    </div>
-
-    <div class="buttons">
-      <button id="yesBtn">Yes 😍</button>
-      <button id="noBtn">No 🙈</button>
-    </div>
-  </div>
-
-  <!-- Popup -->
-  <div class="popup" id="popup">
-    <div class="popup-box">
-      <h2>Mrs Tithi Sakarwal? 😏💍</h2>
-      <p>You just made me the happiest ❤️</p>
-      <button class="closeBtn" onclick="closePopup()">Awww 🥺</button>
-    </div>
+    <button onclick="finalYes()">Aww Yes 😊❤️</button>
   </div>
 
   <script>
-    // Floating hearts
+    // Play Music
+    function playMusic() {
+      let music = document.getElementById("music");
+      music.play();
+      alert("Music Started 💖");
+    }
+
+    // Open Surprise Popup
+    function openSurprise() {
+      document.getElementById("popupBox").style.display = "block";
+    }
+
+    // Final Yes Button
+    function finalYes() {
+      alert("Yayyy 💞 Forever Together Tithi ❤️ Himanshu");
+      document.getElementById("popupBox").style.display = "none";
+    }
+
+    // Floating Hearts Generator
     function createHeart() {
       const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = "💖";
+      heart.classList.add("heart");
+      heart.innerHTML = "💗";
+
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.top = "100vh";
-      heart.style.fontSize = Math.random() * 25 + 15 + "px";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+
       document.body.appendChild(heart);
 
-      setTimeout(() => heart.remove(), 6000);
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
     }
+
     setInterval(createHeart, 400);
-
-    // No button trick
-    const noBtn = document.getElementById("noBtn");
-    noBtn.addEventListener("mouseover", () => {
-      noBtn.style.position = "absolute";
-      noBtn.style.left = Math.random() * 80 + "vw";
-      noBtn.style.top = Math.random() * 80 + "vh";
-    });
-
-    // Yes button popup
-    const yesBtn = document.getElementById("yesBtn");
-    yesBtn.addEventListener("click", () => {
-      document.getElementById("popup").style.display = "flex";
-    });
-
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-    }
-
-    // Autoplay music (mobile needs click)
-    document.body.addEventListener("click", () => {
-      document.getElementById("bgMusic").play();
-    }, { once: true });
   </script>
+
 </body>
 </html>
