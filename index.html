@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,8 @@
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+      background: url("https://i.ibb.co/9hLQpQk/valentine-clouds.jpg")
+        no-repeat center center/cover;
       height: 100vh;
       overflow: hidden;
       text-align: center;
@@ -18,8 +19,8 @@
 
     h1 {
       margin-top: 40px;
-      font-size: 45px;
-      text-shadow: 0 0 20px pink;
+      font-size: 50px;
+      text-shadow: 0 0 25px pink;
     }
 
     p {
@@ -27,6 +28,7 @@
       margin: 10px 20px;
     }
 
+    /* Buttons */
     .btn {
       margin-top: 40px;
       padding: 15px 35px;
@@ -62,24 +64,25 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(15px);
       padding: 30px;
       border-radius: 25px;
       width: 85%;
-      max-width: 450px;
-      box-shadow: 0 0 35px pink;
+      max-width: 480px;
+      box-shadow: 0 0 40px pink;
       z-index: 10;
     }
 
     .popup h2 {
-      font-size: 28px;
+      font-size: 30px;
       margin-bottom: 10px;
+      text-shadow: 0 0 15px hotpink;
     }
 
     .popup p {
       font-size: 16px;
       line-height: 1.6;
-      color: #fff;
+      color: white;
     }
 
     .close {
@@ -91,9 +94,10 @@
       border-radius: 25px;
       cursor: pointer;
       font-size: 16px;
+      box-shadow: 0 0 20px pink;
     }
 
-    /* Hearts Animation */
+    /* Hearts */
     .heart {
       position: absolute;
       bottom: -20px;
@@ -121,35 +125,60 @@
       z-index: 20;
     }
 
-    /* QR Code */
-    .qr {
-      margin-top: 25px;
-    }
-
-    img {
-      width: 130px;
+    /* QR */
+    .qr img {
+      width: 140px;
       border-radius: 15px;
       border: 3px solid white;
-      box-shadow: 0 0 15px pink;
+      box-shadow: 0 0 20px pink;
+    }
+
+    /* Fireworks + Love Animation */
+    .loveText {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 50;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 45px;
+      text-shadow: 0 0 30px hotpink;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 40;
+      pointer-events: none;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Background Music -->
+  <!-- Music -->
   <audio id="bgMusic" autoplay loop>
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
   </audio>
 
-  <div class="music-btn" onclick="toggleMusic()">
-    🎶 Music
-  </div>
+  <div class="music-btn" onclick="toggleMusic()">🎶 Music</div>
 
   <h1>Tithi ❤️ Himanshu</h1>
   <p>Har din, har pal… sirf tumse pyaar karta hoon 💖</p>
 
-  <!-- QR Code -->
+  <!-- QR -->
   <div class="qr">
     <p>Scan this Surprise 💌</p>
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://hksakarwal.github.io/tithi-valentine/">
@@ -164,17 +193,26 @@
     <h2>Mrs Tithi Sakarwal? 😏❤️</h2>
     <p>
       Tithi… main jaanta hoon kabhi kabhi main annoying ho jaata hoon,  
-      mera gussa, meri over-possessiveness tumhe hurt kar deti hai…  
+      mera gussa aur over-possessiveness tumhe hurt kar deti hai…  
       <br><br>
-      Par sach ye hai…  
-      4 saal ki fights ke baad bhi main har situation me tumhe hi choose karta hoon.  
+      Par 4 saal ki fights ke baad bhi main har situation me tumhe hi choose karta hoon.  
       Tumhari smile, tumhara mujhe daantna… sab meri aadat ban chuka hai.  
       <br><br>
       Main apni puri life tumhare saath bitana chahta hoon.  
       Will you be mine forever? 💍💕
     </p>
 
-    <button class="close" onclick="closePopup()">Always Yours 🥺❤️</button>
+    <button class="close" onclick="yesClicked()">Always Yours 🥺❤️</button>
+  </div>
+
+  <!-- Fireworks Canvas -->
+  <canvas id="fireworks"></canvas>
+
+  <!-- Love Text -->
+  <div class="loveText" id="loveText">
+    💖 I LOVE YOU TITHI 💖  
+    <br>
+    Forever & Always ❤️
   </div>
 
   <script>
@@ -183,19 +221,21 @@
       document.getElementById("popupBox").style.display = "block";
     }
 
-    function closePopup() {
+    // YES Click → Fireworks + Love Text
+    function yesClicked() {
       document.getElementById("popupBox").style.display = "none";
-      alert("Happy Valentine Day Tithi ❤️ Forever Yours!");
+      document.getElementById("loveText").style.display = "flex";
+      startFireworks();
     }
 
-    // No button trick
+    // No Button Trick
     const noBtn = document.getElementById("noBtn");
     noBtn.addEventListener("mouseover", () => {
       noBtn.style.left = Math.random() * 70 + "vw";
       noBtn.style.top = Math.random() * 70 + "vh";
     });
 
-    // Floating hearts
+    // Floating Hearts
     setInterval(() => {
       let heart = document.createElement("div");
       heart.className = "heart";
@@ -204,22 +244,63 @@
       heart.style.fontSize = Math.random() * 20 + 15 + "px";
       document.body.appendChild(heart);
 
-      setTimeout(() => {
-        heart.remove();
-      }, 6000);
+      setTimeout(() => heart.remove(), 6000);
     }, 400);
 
     // Music Toggle
     let music = document.getElementById("bgMusic");
     function toggleMusic() {
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
+      if (music.paused) music.play();
+      else music.pause();
+    }
+
+    // Fireworks Effect
+    function startFireworks() {
+      const canvas = document.getElementById("fireworks");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particles = [];
+
+      function createParticle() {
+        let x = Math.random() * canvas.width;
+        let y = Math.random() * canvas.height / 2;
+        for (let i = 0; i < 80; i++) {
+          particles.push({
+            x: x,
+            y: y,
+            vx: (Math.random() - 0.5) * 6,
+            vy: (Math.random() - 0.5) * 6,
+            life: 100
+          });
+        }
       }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p, index) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life--;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = "pink";
+          ctx.fill();
+
+          if (p.life <= 0) particles.splice(index, 1);
+        });
+
+        if (Math.random() < 0.05) createParticle();
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
     }
   </script>
 
 </body>
 </html>
-     
