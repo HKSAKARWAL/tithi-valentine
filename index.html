@@ -1,305 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tithi ❤️ Himanshu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
-      background: url("bg.png") no-repeat center center/cover;
-      height: 100vh;
-      overflow: hidden;
       text-align: center;
       color: white;
+      overflow: hidden;
+      background: url("https://i.ibb.co/Nx7mJvH/love-bg.jpg") no-repeat center center/cover;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      max-width: 400px;
+      margin: auto;
+      margin-top: 50px;
+      padding: 25px;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 25px rgba(255,105,180,0.6);
     }
 
     h1 {
-      margin-top: 40px;
-      font-size: 50px;
-      text-shadow: 0 0 25px pink;
+      font-size: 45px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px pink;
     }
 
     p {
       font-size: 18px;
-      margin: 10px 20px;
+      line-height: 1.5;
+      margin-bottom: 20px;
     }
 
-    /* Buttons */
-    .btn {
-      margin-top: 40px;
+    .qr img {
+      width: 200px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px white;
+    }
+
+    .buttons {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    button {
       padding: 15px 35px;
       font-size: 18px;
       border: none;
-      border-radius: 40px;
+      border-radius: 50px;
       cursor: pointer;
+      transition: 0.2s;
       font-weight: bold;
-      transition: 0.3s;
     }
 
-    .yes {
-      background: hotpink;
+    #yesBtn {
+      background: linear-gradient(45deg, hotpink, deeppink);
       color: white;
       box-shadow: 0 0 20px pink;
     }
 
-    .no {
+    #noBtn {
       background: white;
       color: hotpink;
-      position: absolute;
+      position: relative;
     }
 
-    .btn:hover {
-      transform: scale(1.1);
+    /* Floating hearts animation */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: float 6s infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0% {transform: translateY(0); opacity: 1;}
+      100% {transform: translateY(-800px); opacity: 0;}
     }
 
     /* Popup */
     .popup {
       display: none;
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(15px);
-      padding: 30px;
-      border-radius: 25px;
-      width: 85%;
-      max-width: 480px;
-      box-shadow: 0 0 40px pink;
-      z-index: 10;
-    }
-
-    .popup h2 {
-      font-size: 30px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 15px hotpink;
-    }
-
-    .popup p {
-      font-size: 16px;
-      line-height: 1.6;
-      color: white;
-    }
-
-    .close {
-      margin-top: 20px;
-      background: hotpink;
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 16px;
-      box-shadow: 0 0 20px pink;
-    }
-
-    /* Hearts */
-    .heart {
-      position: absolute;
-      bottom: -20px;
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
-      opacity: 0.8;
-    }
-
-    @keyframes floatUp {
-      from { transform: translateY(0); opacity: 1; }
-      to { transform: translateY(-100vh); opacity: 0; }
-    }
-
-    /* Music Button */
-    .music-btn {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(255,255,255,0.8);
-      color: hotpink;
-      padding: 10px 18px;
-      border-radius: 20px;
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 20;
-    }
-
-    /* QR */
-    .qr img {
-      width: 140px;
-      border-radius: 15px;
-      border: 3px solid white;
-      box-shadow: 0 0 20px pink;
-    }
-
-    /* Fireworks + Love Animation */
-    .loveText {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
+      inset: 0;
       background: rgba(0,0,0,0.7);
-      z-index: 50;
+      z-index: 999;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      font-size: 45px;
-      text-shadow: 0 0 30px hotpink;
-      animation: fadeIn 1s ease;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .popup-box {
+      background: white;
+      color: hotpink;
+      padding: 30px;
+      border-radius: 25px;
+      text-align: center;
+      max-width: 300px;
+      box-shadow: 0 0 30px pink;
+      animation: pop 0.4s ease;
     }
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 40;
-      pointer-events: none;
+    @keyframes pop {
+      from {transform: scale(0.5);}
+      to {transform: scale(1);}
+    }
+
+    .popup-box h2 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .closeBtn {
+      margin-top: 20px;
+      padding: 10px 25px;
+      background: hotpink;
+      border: none;
+      border-radius: 20px;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
+  <div class="overlay"></div>
 
   <!-- Music -->
-  <audio id="bgMusic" autoplay loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
+  <audio id="bgMusic" loop>
+    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
   </audio>
 
-  <div class="music-btn" onclick="toggleMusic()">🎶 Music</div>
+  <div class="card">
+    <h1>Tithi ❤️ Himanshu</h1>
 
-  <h1>Tithi ❤️ Himanshu</h1>
-  <p>Har din, har pal… sirf tumse pyaar karta hoon 💖</p>
-
-  <!-- QR -->
-  <div class="qr">
-    <p>Scan this Surprise 💌</p>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://hksakarwal.github.io/tithi-valentine/">
-  </div>
-
-  <!-- Buttons -->
-  <button class="btn yes" onclick="openPopup()">Yes 😍</button>
-  <button class="btn no" id="noBtn">No 🙈</button>
-
-  <!-- Popup -->
-  <div class="popup" id="popupBox">
-    <h2>Mrs Tithi Sakarwal? 😏❤️</h2>
     <p>
-      Tithi… main jaanta hoon kabhi kabhi main annoying ho jaata hoon,  
-      mera gussa aur over-possessiveness tumhe hurt kar deti hai…  
-      <br><br>
-      Par 4 saal ki fights ke baad bhi main har situation me tumhe hi choose karta hoon.  
-      Tumhari smile, tumhara mujhe daantna… sab meri aadat ban chuka hai.  
-      <br><br>
-      Main apni puri life tumhare saath bitana chahta hoon.  
-      Will you be mine forever? 💍💕
+      Har din, har pal… sirf tumse pyar karta hoon 💖  
+      Tum meri duniya ho Tithi ✨  
+      Will you be my forever? 😏
     </p>
 
-    <button class="close" onclick="yesClicked()">Always Yours 🥺❤️</button>
+    <h3>Scan this Surprise 💌</h3>
+
+    <!-- QR Code -->
+    <div class="qr">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=I%20Love%20You%20Tithi%20Forever" />
+    </div>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 😍</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
   </div>
 
-  <!-- Fireworks Canvas -->
-  <canvas id="fireworks"></canvas>
-
-  <!-- Love Text -->
-  <div class="loveText" id="loveText">
-    💖 I LOVE YOU TITHI 💖  
-    <br>
-    Forever & Always ❤️
+  <!-- Popup -->
+  <div class="popup" id="popup">
+    <div class="popup-box">
+      <h2>Mrs Tithi Sakarwal? 😏💍</h2>
+      <p>You just made me the happiest ❤️</p>
+      <button class="closeBtn" onclick="closePopup()">Awww 🥺</button>
+    </div>
   </div>
 
   <script>
-    // Popup
-    function openPopup() {
-      document.getElementById("popupBox").style.display = "block";
-    }
-
-    // YES Click → Fireworks + Love Text
-    function yesClicked() {
-      document.getElementById("popupBox").style.display = "none";
-      document.getElementById("loveText").style.display = "flex";
-      startFireworks();
-    }
-
-    // No Button Trick
-    const noBtn = document.getElementById("noBtn");
-    noBtn.addEventListener("mouseover", () => {
-      noBtn.style.left = Math.random() * 70 + "vw";
-      noBtn.style.top = Math.random() * 70 + "vh";
-    });
-
-    // Floating Hearts
-    setInterval(() => {
-      let heart = document.createElement("div");
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
       heart.className = "heart";
-      heart.innerHTML = "💗";
+      heart.innerHTML = "💖";
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      heart.style.top = "100vh";
+      heart.style.fontSize = Math.random() * 25 + 15 + "px";
       document.body.appendChild(heart);
 
       setTimeout(() => heart.remove(), 6000);
-    }, 400);
+    }
+    setInterval(createHeart, 400);
 
-    // Music Toggle
-    let music = document.getElementById("bgMusic");
-    function toggleMusic() {
-      if (music.paused) music.play();
-      else music.pause();
+    // No button trick
+    const noBtn = document.getElementById("noBtn");
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.position = "absolute";
+      noBtn.style.left = Math.random() * 80 + "vw";
+      noBtn.style.top = Math.random() * 80 + "vh";
+    });
+
+    // Yes button popup
+    const yesBtn = document.getElementById("yesBtn");
+    yesBtn.addEventListener("click", () => {
+      document.getElementById("popup").style.display = "flex";
+    });
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
     }
 
-    // Fireworks Effect
-    function startFireworks() {
-      const canvas = document.getElementById("fireworks");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      let particles = [];
-
-      function createParticle() {
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height / 2;
-        for (let i = 0; i < 80; i++) {
-          particles.push({
-            x: x,
-            y: y,
-            vx: (Math.random() - 0.5) * 6,
-            vy: (Math.random() - 0.5) * 6,
-            life: 100
-          });
-        }
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach((p, index) => {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.life--;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-          ctx.fillStyle = "pink";
-          ctx.fill();
-
-          if (p.life <= 0) particles.splice(index, 1);
-        });
-
-        if (Math.random() < 0.05) createParticle();
-
-        requestAnimationFrame(animate);
-      }
-
-      animate();
-    }
+    // Autoplay music (mobile needs click)
+    document.body.addEventListener("click", () => {
+      document.getElementById("bgMusic").play();
+    }, { once: true });
   </script>
-
 </body>
 </html>
